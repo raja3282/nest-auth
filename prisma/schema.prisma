@@ -15,5 +15,12 @@ model User {
   email    String  @unique
   password String
   name     String?
+  roles    Role
+}
 
+enum Role {
+  User   @map("user")
+  Admin  @map("admin")
+
+  @@map("Role")
 }

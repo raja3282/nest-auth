@@ -31,7 +31,12 @@ export class AuthService {
         user: result,
         message: 'user logged in successfully',
       };
-      return this.signinUser(result.id, result.name, result.email, 'user');
+      return this.signinUser(
+        result.id,
+        result.name,
+        result.email,
+        result.roles,
+      );
     }
     //cant login / error
     else {
@@ -41,14 +46,14 @@ export class AuthService {
   async signinUser(
     userId: number,
     userName: string,
-    email: string,
-    userType: string,
+    userEmail: string,
+    userRole: string,
   ) {
     const payload = {
       id: userId,
       username: userName,
-      useremail: email,
-      type: userType,
+      useremail: userEmail,
+      roles: userRole,
     };
     return {
       access_token: this.jwtService.sign(payload),
