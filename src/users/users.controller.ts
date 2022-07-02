@@ -8,6 +8,7 @@ import {
   Delete,
   BadRequestException,
 } from '@nestjs/common';
+
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -21,11 +22,11 @@ import { Role } from '@prisma/client';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-  //@Public()
+
+  @Public()
   @Post('signup')
-  @Roles(Role.User)
+  //@Roles(Role.User)
   async create(@Body() createUserDto: CreateUserDto) {
-    //
     const user = await this.usersService.findOneByEmail(createUserDto.email);
     if (user) {
       throw new BadRequestException('User already Exists');
@@ -38,8 +39,8 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
-
-  @Get(':id')
+  @Public()
+  @Get('findUser/:id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
