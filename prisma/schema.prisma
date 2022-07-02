@@ -15,5 +15,25 @@ model User {
   email    String  @unique
   password String
   name     String?
+  roles    Role
+  todo     todo[]
+}
 
+enum Role {
+  User   @map("user")
+  Admin  @map("admin")
+
+  @@map("Role")
+}
+
+model todo {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  todo_date   DateTime
+  CreatedAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isdone      Boolean? @default(false)
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
 }
